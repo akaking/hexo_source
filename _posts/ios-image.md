@@ -1,4 +1,4 @@
-title: Learn Something: SDWebImage
+title: Learn Something SDWebImage
 ---
 [SDWebImage](https://github.com/rs/SDWebImage)
 
