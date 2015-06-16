@@ -38,11 +38,8 @@ typedef NS_OPTIONS(NSUInteger, NSSortOptions) {
 对于以NSSortConcurrent的方式进行排序，排序方法不立刻返回，[这个网站](http://q2a.science/ios-determine-when-nsmutablearray-sortusingcomparator-is-complete-i607576.htm)有人给出了说明：
 
 Interestingly, all the array sorting methods operate synchronously, even sortWithOptions:usingComparator: with an options value of NSSortConcurrent.
-
 The docs are silent on this point, but I just tested and confirmed. I wrote a test comparator block that logged the time and thread id, and logged the time before and after the sort. With a large enough array I as able to see the comparator block firing concurrently from different threads, but the sort method did not return until the sort process was complete.
-
 I just posted the following documentation comment:
-
 The documentation for the method sortWithOptions:usingComparator: is incomplete.
 This method always operates synchronously, even when you specify an opts value of NSSortConcurrent.
 Put in plain english: 'This method does not return until the array is sorted, even if you specify sort options of NSSortConcurrent". In that case the comparator blocks may be invoked on background threads, but the method waits until the sort is complete before returning control to the caller.
