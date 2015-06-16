@@ -1,4 +1,10 @@
 title: iOS NSSortOptions
+categories:
+- 坑里坑外
+tags:
+- iOS
+- Sort
+- NSSortOptions
 ---
 NSSortOptions是iOS中对数组（NSMutableArray）进行排序时的一个可选项。
 
