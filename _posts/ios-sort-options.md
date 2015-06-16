@@ -35,6 +35,18 @@ typedef NS_OPTIONS(NSUInteger, NSSortOptions) {
 
 通常情况下，若以同步的方式执行一个方法，这个方法会立刻返回，执行下一个方法。但是，假如你对NSSortConcurrent做过测试，你会发现排序方法并不会立刻返回；并且有时执行排序的线程是main thread，有时是另一个concurrent线程。
 
+对于以NSSortConcurrent的方式进行排序，排序方法不立刻返回，[这个网站](http://q2a.science/ios-determine-when-nsmutablearray-sortusingcomparator-is-complete-i607576.htm)有人给出了说明：
+{% blockquote %}
+Interestingly, all the array sorting methods operate synchronously, even sortWithOptions:usingComparator: with an options value of NSSortConcurrent.
+The docs are silent on this point, but I just tested and confirmed. I wrote a test comparator block that logged the time and thread id, and logged the time before and after the sort. With a large enough array I as able to see the comparator block firing concurrently from different threads, but the sort method did not return until the sort process was complete.
+I just posted the following documentation comment:
+The documentation for the method sortWithOptions:usingComparator: is incomplete.
+This method always operates synchronously, even when you specify an opts value of NSSortConcurrent.
+Put in plain english: 'This method does not return until the array is sorted, even if you specify sort options of NSSortConcurrent". In that case the comparator blocks may be invoked on background threads, but the method waits until the sort is complete before returning control to the caller.
+Let's all send in feedback on this issue, since Apple is more likely to fix something if they receive multiple reports about it.
+{% endblockquote %}
+所以，NSSortConcurrent虽然是以同步的方式执行的，但是在iOS中排序方法并不会立刻返回，而是等到排序完成后才返回。这种方式虽然将排序的工作放到了其他线程，但是还是后阻塞main thread。苹果要是能够提供一个真正的同步排序方法就太好了。不过，你可以手动以多线程的方式执行排序方法（GCD等）。
+
 
 通过下面的代码查看一下进行排序操作的线程：
 
@@ -81,7 +93,17 @@ typedef NS_OPTIONS(NSUInteger, NSSortOptions) {
     }];
 {% endcodeblock %}
 
+- 将Options设置为0：
 {% img [sort options 0] http://justben.me/images/ios_sort_options_0.png [将Options设置为0]%}
+
+- 将Options设置为NSSortConcurrent，且将数组的长度设置为159：
 {% img [sort options concurrent 159] http://justben.me/images/ios_sort_options_concurrent_159.png [将Options设置为NSSortConcurrent，且将数组的长度设置为159]%}
+
+- 将Options设置为NSSortConcurrent，且将数组的长度设置为160：
 {% img [sort options concurrent 160] http://justben.me/images/ios_sort_options_concurrent_160.png [将Options设置为NSSortConcurrent，且将数组的长度设置为160]%}
+
+在NSSortConcurrent的官方说明中提到：在某些特殊的情况下NSSortConcurrent的设置可能会被忽略。从上面的截图中，当数组长度为159时，NSSortConcurrent的设置就被忽略了。应该是在排序中有一种检测机制，只有当排序操作对系统资源的消耗超过某个上限才会使用同步的方式。
+
+- 将Options设置为NSSortStable：
 {% img [sort options stable] http://justben.me/images/ios_sort_options_stable.png [将Options设置为NSSortStable]%}
+
