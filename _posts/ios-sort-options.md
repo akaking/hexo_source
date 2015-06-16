@@ -2,12 +2,12 @@ title: iOS NSSortOptions
 ---
 NSSortOptions是iOS中对数组（NSMutableArray）进行排序时的一个可选项。
 
-``` objective-c
+{% codeblock lang:objc %}
 typedef NS_OPTIONS(NSUInteger, NSSortOptions) {
     NSSortConcurrent = (1UL << 0),
     NSSortStable = (1UL << 4),
 };
-```
+{% endcodeblock %}
 
 官方的解释：
 
@@ -38,7 +38,7 @@ typedef NS_OPTIONS(NSUInteger, NSSortOptions) {
 
 通过下面的代码查看一下进行排序操作的线程：
 
-``` objective-c
+{% codeblock lang:objc %}
     NSMutableArray *array = [NSMutableArray array];
     for (int i = 0; i < 160; i++) {
         switch (i%4) {
@@ -79,9 +79,9 @@ typedef NS_OPTIONS(NSUInteger, NSSortOptions) {
             return NSOrderedDescending;
         return NSOrderedSame;
     }];
-```
+{% endcodeblock %}
 
-{% img [sort options 0] ../images/ios_sort_options_0.png [将Options设置为0]%}
-{% img [sort options concurrent 159] ../images/ios_sort_options_concurrent_159.png [将Options设置为NSSortConcurrent，且将数组的长度设置为159]%}
-{% img [sort options concurrent 160] ../images/ios_sort_options_concurrent_160.png [将Options设置为NSSortConcurrent，且将数组的长度设置为160]%}
-{% img [sort options stable] ../images/ios_sort_options_stable.png [将Options设置为NSSortStable]%}
+{% img [sort options 0] http://justben.me/images/ios_sort_options_0.png [将Options设置为0]%}
+{% img [sort options concurrent 159] http://justben.me/images/ios_sort_options_concurrent_159.png [将Options设置为NSSortConcurrent，且将数组的长度设置为159]%}
+{% img [sort options concurrent 160] http://justben.me/images/ios_sort_options_concurrent_160.png [将Options设置为NSSortConcurrent，且将数组的长度设置为160]%}
+{% img [sort options stable] http://justben.me/images/ios_sort_options_stable.png [将Options设置为NSSortStable]%}
