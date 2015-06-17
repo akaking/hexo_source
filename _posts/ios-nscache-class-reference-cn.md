@@ -5,6 +5,7 @@ tags:
 - iOS
 - NSCache
 - Reference
+- <!- more ->
 ---
 
 An NSCache object is a collection-like container, or cache, that stores key-value pairs, similar to the NSDictionary class. Developers often incorporate caches to temporarily store objects with transient data that are expensive to create. Reusing these objects can provide performance benefits, because their values do not have to be recalculated. However, the objects are not critical to the application and can be discarded if memory is tight. If discarded, their values will have to be recomputed again when needed.
