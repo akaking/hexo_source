@@ -9,7 +9,7 @@ tags:
 
 An NSCache object is a collection-like container, or cache, that stores key-value pairs, similar to the NSDictionary class. Developers often incorporate caches to temporarily store objects with transient data that are expensive to create. Reusing these objects can provide performance benefits, because their values do not have to be recalculated. However, the objects are not critical to the application and can be discarded if memory is tight. If discarded, their values will have to be recomputed again when needed.
 
-<!- more ->
+<!-- more -->
 
 While a key-value pair is in the cache, the cache maintains a strong reference to it. A common data type stored in NSCache objects is an object that implements the NSDiscardableContent protocol. Storing this type of object in a cache has benefits, because its content can be discarded when it is not needed anymore, thus saving memory. By default, NSDiscardableContent objects in the cache are automatically removed from the cache if their content is discarded, although this automatic removal policy can be changed. If an NSDiscardableContent object is put into the cache, the cache calls discardContentIfPossible on it upon its removal.
 
