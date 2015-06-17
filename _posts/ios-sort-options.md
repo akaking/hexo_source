@@ -1,4 +1,4 @@
-title: iOS NSSortOptions
+title: NSSortOptions说明
 categories:
 - 坑里坑外
 tags:
@@ -33,6 +33,7 @@ typedef NS_OPTIONS(NSUInteger, NSSortOptions) {
 	If this option is unspecified equal objects may, or may not, be returned in their original order.
 	（假如没有指定这个设置，两个对比值相同的对象在排序后的前后位置是无法确定的。）
 
+<!- more ->
 
 在[stackoverflow](http://stackoverflow.com/questions/9794957/documentation-for-nssortstable-is-ungrammatical-what-is-it-trying-to-say)中对NSSortStable进行了说明。
 
